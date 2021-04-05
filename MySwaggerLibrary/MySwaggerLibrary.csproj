@@ -2,6 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <!-- Yorum satirlarinin xml dosyasina donusturulmesi icin. -->
+    <!-- Endpointlerde yazilan yorum satirlari artik xml olarak kok klasore kayit edilecek. -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
