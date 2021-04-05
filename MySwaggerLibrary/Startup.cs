@@ -1,17 +1,14 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using MySwaggerLibrary.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.IO;
+using System.Reflection;
 
 namespace MySwaggerLibrary
 {
@@ -31,6 +28,26 @@ namespace MySwaggerLibrary
            {
                opts.UseSqlServer(Configuration["ConnectionString"]);
            });
+
+            services.AddSwaggerGen(gen =>
+            {
+                gen.SwaggerDoc("productV1", new OpenApiInfo
+                {
+                    Version = "V1",
+                    Title = "Product API",
+                    Description = "CRUD API",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "t4h4",
+                        Email = "t4h4@t4h4.net"
+                    }
+                });
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName()}.xml"; // dll tarafindan uretilen xml dosyasinin ismi alindi.
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile); // xml'in pathini aliyoruz. combine method'u bunlari birlestirmekle gorevli. ortaya path cikiyor.
+                gen.IncludeXmlComments(xmlPath);
+            });
+
+            
             services.AddControllers();
         }
 
@@ -41,6 +58,13 @@ namespace MySwaggerLibrary
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Product API");
+            });
+
 
             app.UseHttpsRedirection();
 
