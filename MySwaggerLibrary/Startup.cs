@@ -42,7 +42,7 @@ namespace MySwaggerLibrary
                         Email = "t4h4@t4h4.net"
                     }
                 });
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName()}.xml"; // dll tarafindan uretilen xml dosyasinin ismi alindi.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"; // dll tarafindan uretilen xml dosyasinin ismi alindi.
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile); // xml'in pathini aliyoruz. combine method'u bunlari birlestirmekle gorevli. ortaya path cikiyor.
                 gen.IncludeXmlComments(xmlPath);
             });
@@ -62,7 +62,7 @@ namespace MySwaggerLibrary
             app.UseSwagger();
             app.UseSwaggerUI(options =>
             {
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Product API");
+                options.SwaggerEndpoint("/swagger/productV1/swagger.json", "Product API");
             });
 
 
