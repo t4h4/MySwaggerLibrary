@@ -20,14 +20,29 @@ namespace MySwaggerLibrary.Controllers
             _context = context;
         }
 
-        // GET: api/Products
+        /// <summary>
+        /// bu endpoint tum urunleri list olarak geri doner.
+        /// </summary>
+        /// <remarks>
+        /// ornek url: https://localhost:44307/api/Products
+        /// 
+        /// </remarks>
+        /// <returns></returns>
+        [Produces("application/json")] //geriye json dondugu belirtildi.
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
             return await _context.Products.ToListAsync();
         }
 
-        // GET: api/Products/5
+        /// <summary>
+        /// bu enpoint verilen id'ye sahip urunu doner.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <response code="404">verilen id'ye sahip urun bulunamadi. </response>
+        /// <response code="200">verilen id'ye sahip urun var. </response>
+        [Produces("application/json")]
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
@@ -73,10 +88,23 @@ namespace MySwaggerLibrary.Controllers
             return NoContent();
         }
 
-        // POST: api/Products
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPost]
+        /// <summary>
+        /// bu endpoint urun ekler.
+        /// </summary>
+        /// <remarks>
+        /// {
+        ///  "id": 0,
+        ///  "name": "string",
+        ///  "price": 0,
+        ///  "date": "2021-04-06T14:38:47.200Z",
+        ///  "category": "string"
+        ///  }
+        /// </remarks>
+        /// <param name="product">json product nesnesi</param>
+        /// <returns></returns>
+    [Consumes("application/json")]
+    [Produces("application/json")]
+    [HttpPost]
         public async Task<ActionResult<Product>> PostProduct(Product product)
         {
             _context.Products.Add(product);
